@@ -64,7 +64,7 @@ class AuthController extends Controller
                 'name'  => $user->name,
                 'email' => $user->email,
                 'roles' => $user->roles->pluck('name'),
-                'permissions' => $user->getAllPermissions()->pluck('name'), // إضافة الصلاحيات
+                'permissions' => $user->getAllPermissions()->pluck('name'),// add tokens
                 'token' => $token,
             ]
         ], 200);
@@ -72,7 +72,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete(); // حذف جميع التوكنات
+        $request->user()->tokens()->delete(); // delete tokens
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 }
