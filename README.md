@@ -1,7 +1,7 @@
 # Laravel REST API - Backend Demo Project
 
 ## 📌 Introduction
-This project is a backend developer test implementation using **Laravel 11**. It includes:
+This project is json RESTful API  implementation using **Laravel 11**. It includes:
 - Authentication with **Laravel Sanctum** (Token-based Authentication)
 - Role and Permission Management using **Spatie Laravel Permissions**
 - CRUD operations for Users and Posts with full access control
@@ -16,7 +16,6 @@ This project is a backend developer test implementation using **Laravel 11**. It
 - MySQL
 - Sanctum (for authentication tokens)
 - Spatie Laravel Permission (for roles and permissions)
-- PHPUnit (for testing)
 - Postman (for API testing)
 
 ---
@@ -107,13 +106,59 @@ You can download the **Postman Collection** from this link:
 
 ---
 
-## 📌 **Running Tests (Unit & Feature Tests)**
+## 🛡️ Authentication & Authorization
+### **🔑 Register a New User**
+**POST** `/api/register`
+```json
+{
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "password123"
+}
+```
+
+### **🔓 Login User**
+**POST** `/api/login`
+```json
+{
+    "email": "johndoe@example.com",
+    "password": "password123"
+}
+```
+_Response:_
+```json
+{
+    "token": "your-access-token-here"
+}
+```
+
+**Include `Authorization: Bearer YOUR_TOKEN` in all protected routes.**
+
+### **🔐 Admin-Only Routes**
+Admins can **create, edit, and delete users.**
+
+- **GET** `/api/v1/users` → List all users
+- **POST** `/api/v1/users` → Create a user
+- **PUT** `/api/v1/users/{id}` → Update a user
+- **DELETE** `/api/v1/users/{id}` → Delete a user
+
+### **📝 Post Management (Users & Admins)**
+Users can **create, edit, and delete their own posts**
+- **GET** `/api/v1/posts` → List all posts
+- **POST** `/api/v1/posts` → Create a post
+- **PUT** `/api/v1/posts/{id}` → Update own post
+- **DELETE** `/api/v1/posts/{id}` → Delete own post
+
+## 📩 API Testing with Postman
+- Import the **Postman Collection** included in the repository.
+- Use **`Authorization: Bearer YOUR_TOKEN`** for protected routes.
+
+
+## 📌 **Running Tests (Feature Tests)**
 Run the tests using:
 ```sh
 php artisan test
 ```
 
 ---
-
-
 
