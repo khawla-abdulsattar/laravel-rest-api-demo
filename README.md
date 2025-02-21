@@ -1,6 +1,6 @@
 # Laravel REST API - Backend Demo Project
 
-## 📌 Introduction
+
 This project is json RESTful API  implementation using **Laravel 11**. It includes:
 - Authentication with **Laravel Sanctum** (Token-based Authentication)
 - Role and Permission Management using **Spatie Laravel Permissions**
@@ -11,7 +11,7 @@ This project is json RESTful API  implementation using **Laravel 11**. It includ
 
 ---
 
-## 🚀 **Technologies Used**
+## **Technologies Used**
 - Laravel 11
 - MySQL
 - Sanctum (for authentication tokens)
@@ -67,16 +67,21 @@ Then execute:
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
+// this for adding roles in db
 Role::firstOrCreate(['name' => 'admin']);
+Role::firstOrCreate(['name' => 'user']);
 
+//creat a super user
 $admin = User::create([
     'name' => 'Super Admin',
-    'email' => 'admin@example.com',
+    'email' => 'admin@website.ly',
     'password' => bcrypt('password123'),
 ]);
 
+// assign the role that we created to the super suer
 $admin->assignRole('admin');
 
+// add the token
 $token = $admin->createToken('api-token')->plainTextToken;
 $token;
 ```
