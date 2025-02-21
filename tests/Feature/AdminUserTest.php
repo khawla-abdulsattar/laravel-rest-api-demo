@@ -14,7 +14,7 @@ class AdminUserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Role::create(['name' => 'admin']); // ✅ إنشاء الأدوار قبل الاختبار
+        Role::create(['name' => 'admin']);
         Role::create(['name' => 'user']);
     }
     public function only_admin_can_access_users_list()
@@ -33,6 +33,6 @@ class AdminUserTest extends TestCase
         $user->assignRole('user');
 
         $response = $this->actingAs($user)->getJson('/api/v1/users');
-        $response->assertStatus(403); // ✅ يجب أن يكون غير مسموح
+        $response->assertStatus(403);
     }
 }

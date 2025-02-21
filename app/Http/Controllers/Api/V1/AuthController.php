@@ -41,7 +41,7 @@ class AuthController extends Controller
             'data'    => (new UserResource($user))->withToken($token),
         ], 201);
     }
-    // تسجيل الدخول وإنشاء توكن
+
     public function login(Request $request)
     {
         $credentials = $request->validate([

@@ -13,14 +13,14 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    // عرض جميع المستخدمين مع أدوارهم
+    // get all users
     public function index()
     {
         $users = User::with('roles')->get();
         return response()->json($users, 200);
     }
 
-    // إنشاء مستخدم جديد مع تعيين دور (مثل admin أو user)
+    // create a new user with applying a role admin or user
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,20 +33,20 @@ class UserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         $user = User::create($validated);
 
-        // تعيين الدور للمستخدم
+        //assin a role to the user
         $user->assignRole($validated['role']);
 
-        // إنشاء التوكن
+        //create a token for the user
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
             'status'  => 'success',
             'message' => 'User created successfully',
-            'data'    => (new UserResource($user))->withToken($token), // ✅ إرسال التوكن مع المستخدم
+            'data'    => (new UserResource($user))->withToken($token), //send a token
         ], 201);
     }
 
-    // استرجاع مستخدم معين
+    // get a user
     public function show($id)
     {
         $user = User::with('roles')->find($id);
@@ -56,11 +56,11 @@ class UserController extends Controller
         return response()->json([
             'status'  => 'success',
             'message' => 'User retrieved successfully',
-            'data'    => new UserResource($user), // ✅ تحويل المستخدم إلى Resource
+            'data'    => new UserResource($user), // use Resource json data
         ], 200);
     }
 
-    // تحديث بيانات مستخدم
+    // update the user data
     public function update(Request $request, $id)
     {
         $user = User::find($id);
@@ -88,11 +88,11 @@ class UserController extends Controller
         return response()->json([
             'status'  => 'success',
             'message' => 'User updated successfully',
-            'data'    => new UserResource($user), // ✅ تحويل المستخدم إلى Resource
+            'data'    => new UserResource($user), // Resource for json data
         ], 200);
     }
 
-    // حذف مستخدم
+    // delete a user
     public function destroy($id)
     {
         $user = User::find($id);

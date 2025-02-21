@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // علاقة مع المستخدم
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->text('content');
             $table->timestamps();
-
-            // تفعيل علاقة المفتاح الخارجي
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

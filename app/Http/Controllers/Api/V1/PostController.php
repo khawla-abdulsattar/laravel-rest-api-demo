@@ -19,7 +19,7 @@ class PostController extends Controller
     {
         $query = Post::with('user');
 
-        // ✅ تطبيق الفلتر إذا كان موجودًا
+       // filter post?name=user
         $posts = (new PostFilter($request))->apply($query)->latest()->get();
 
         return response()->json([
@@ -29,8 +29,7 @@ class PostController extends Controller
         ], 200);
     }
 
-
-    // إنشاء منشور جديد (المستخدم الحالي هو صاحب المنشور)
+    // for create a post
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -48,6 +47,8 @@ class PostController extends Controller
     }
 
 
+
+    //get a post
     public function show($id)
     {
         $post = Post::with('user')->find($id);
@@ -61,6 +62,8 @@ class PostController extends Controller
         ], 200);
     }
 
+
+    // update a post
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
@@ -68,7 +71,7 @@ class PostController extends Controller
             return response()->json(['message' => 'Post not found'], 404);
         }
 
-        $this->authorize('update', $post); // التحقق من الصلاحية
+        $this->authorize('update', $post); // authorize
 
         $validated = $request->validate([
             'title' => 'sometimes|required|string|max:255',
@@ -83,6 +86,8 @@ class PostController extends Controller
             'data' => new PostResource($post)
         ], 200);
     }
+
+    // delete the post
     public function destroy($id)
     {
         $post = Post::find($id);
@@ -91,7 +96,7 @@ class PostController extends Controller
             return response()->json(['message' => 'Post not found'], 404);
         }
 
-        // التحقق من أن المستخدم هو صاحب المنشور
+        // is this the user post?
         if (auth()->user()->id !== $post->user_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }

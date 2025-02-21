@@ -14,7 +14,6 @@ class PostTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // تأكد من إنشاء دور "user" باستخدام المفتاح الصحيح
         Role::firstOrCreate(['name' => 'user']);
 
         $this->admin = User::factory()->create();
@@ -28,7 +27,6 @@ class PostTest extends TestCase
     public function user_can_create_a_post()
     {
         $user = User::factory()->create();
-        // تعيين الدور بشكل صحيح
         $user->assignRole('user');
         $this->actingAs($user);
 
@@ -64,7 +62,7 @@ class PostTest extends TestCase
             'title' => 'Hacked Post Title',
         ]);
 
-        $response->assertStatus(403); // ✅ يجب أن يكون غير مسموح
+        $response->assertStatus(403);
     }
 
     #[Test]
@@ -75,7 +73,7 @@ class PostTest extends TestCase
         $response = $this->actingAs($this->user1)->deleteJson("api/v1/posts/delete_post/{$post->id}");
 
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('posts', ['id' => $post->id]); // ✅ تأكد أن المنشور لم يعد موجودًا
+        $this->assertDatabaseMissing('posts', ['id' => $post->id]);
     }
 
     #[Test]
@@ -85,6 +83,6 @@ class PostTest extends TestCase
 
         $response = $this->actingAs($this->user2)->deleteJson("api/v1/posts/delete_post/{$post->id}");
 
-        $response->assertStatus(403); // ✅ يجب أن يكون غير مسموح
+        $response->assertStatus(403);
     }
 }
