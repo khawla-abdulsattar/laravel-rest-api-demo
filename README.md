@@ -6,7 +6,7 @@ This project is a backend developer test implementation using **Laravel 11**. It
 - Role and Permission Management using **Spatie Laravel Permissions**
 - CRUD operations for Users and Posts with full access control
 - Advanced filtering for posts based on the author
-- **Unit and Feature Testing** using PHPUnit
+- ** Feature Testing** 
 - Organized **JSON API Resources** for structured API responses
 
 ---
@@ -81,7 +81,7 @@ $admin->assignRole('admin');
 $token = $admin->createToken('api-token')->plainTextToken;
 $token;
 ```
-🚀 **Now you have an admin user with a token!**
+ **Now you have an admin user with a token!**
 
 ### 8️⃣ **Start the development server**
 ```sh
